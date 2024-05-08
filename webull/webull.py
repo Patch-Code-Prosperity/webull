@@ -321,12 +321,18 @@ class webull :
 
         response = requests.get(self._urls.account_list(), headers=headers, timeout=self.timeout)
         result = response.json()
-        if result.get('accountList') and id < len(result['accountList']) and result['accountList'][int(id)]['status'] == 'active':
-            self.zone_var = str(result['accountList'][int(id)]['rzone'])
-            self._account_id = str(result['accountList'][int(id)]['secAccountId'])
-            return self._account_id
-        else:
+        print(result)
+        account_list = result.get('accountList')
+        if not account_list:
             return None
+        target_account = account_list[id] if isinstance(id, int) else [account for account in account_list if account['accountNumber'] == id][0]
+        if not target_account:
+            return None
+        if target_account.get('status') != 'active':
+            return None
+        self.zone_var = str(target_account['rzone'])
+        self._account_id = str(target_account['secAccountId'])
+        return self._account_id
 
     def set_account_id(self, account_id):
         '''
