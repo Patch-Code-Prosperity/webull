@@ -20,11 +20,17 @@ class urls :
     def account(self, account_id):
         return f'{self.base_trade_url}/v3/home/{account_id}'
 
+    def account_summary(self, account_id):
+        return f'{self.base_ustrade_url}/trading/v1/webull/account/accountAssetSummary/v2?secAccountId={account_id}'
+
     def account_id(self):
         return f'{self.base_trade_url}/account/getSecAccountList/v5'
 
     def account_activities(self, account_id):
         return f'{self.base_ustrade_url}/trade/v2/funds/{account_id}/activities'
+
+    def account_list(self):
+        return f'{self.base_new_trade_url}/trading/v1/global/tradetab/display?supportOmniIra=true'
 
     def active_gainers_losers(self, direction, region_code, rank_type, num) :
           if direction == 'gainer' :
@@ -73,6 +79,9 @@ class urls :
 
     def check_otoco_orders(self, account_id):
         return f'{self.base_ustrade_url}/trade/v2/corder/stock/check/{account_id}'
+
+    def check_stock_order(self, account_id):
+        return f'{self.base_ustrade_url}/trading/v1/webull/order/stockOrderCheck?secAccountId={account_id}'
 
     def place_otoco_orders(self, account_id):
         return f'{self.base_ustrade_url}/trade/v2/corder/stock/place/{account_id}'
@@ -168,7 +177,7 @@ class urls :
         return f'{self.base_ustrade_url}/trade/v2/option/placeOrder/{account_id}'
 
     def place_orders(self, account_id):
-        return f'{self.base_ustrade_url}/trade/order/{account_id}/placeStockOrder'
+        return f'{self.base_ustrade_url}/trading/v1/webull/order/stockOrderPlace?secAccountId={account_id}'
 
     def modify_order(self, account_id, order_id):
         return f'{self.base_ustrade_url}/trading/v1/webull/order/stockOrderModify?secAccountId={account_id}'
